@@ -7,20 +7,20 @@ class PlayersController < ApplicationController
     
     @arr = Array.new
     if params[:type] == "Herrer single"
-      @arr << players = Player.where('reliability >= ? AND ranking_category = ? AND utr >= ?', 80, "MS", 5.00).order(utr: :desc)
+      @arr << players = Player.where('reliability >= ? AND ranking_category = ? AND utr >= ?', 80, "MS", 5.00).order('utr desc')
       @title = "UTR - " + params[:type] + " uke 1 (01. januar)"
     elsif params[:type] == "Damer single"
-      @arr << players = Player.where('reliability >= ? AND ranking_category = ? AND utr >= ?', 80, "WS", 5.00).order(utr: :desc)
+      @arr << players = Player.where('reliability >= ? AND ranking_category = ? AND utr >= ?', 80, "WS", 5.00).order('utr desc')
        @title = "UTR - " + params[:type] + " uke 1 (01. januar)"
     elsif params[:type] == "Junior gutter single"
-      @arr << u19 = Player.where('reliability >= ? AND ranking_category = ? AND utr >= ?', 80, "MS", 5.00).where('birthyear BETWEEN ? AND ?',2002, 2004).order(utr: :desc)
-      @arr << u16 = Player.where('reliability >= ? AND ranking_category = ? AND utr >= ?', 80, "MS", 5.00).where('birthyear BETWEEN ? AND ?',2005, 2006).order(utr: :desc)
-      @arr << u14 = Player.where('reliability >= ? AND ranking_category = ? AND utr >= ?', 80, "MS", 5.00).where('birthyear BETWEEN ? AND ?',2007, 2008).order(utr: :desc)
+      @arr << u19 = Player.where('reliability >= ? AND ranking_category = ? AND utr >= ?', 80, "MS", 5.00).where('birthyear BETWEEN ? AND ?',2002, 2004).order('utr desc')
+      @arr << u16 = Player.where('reliability >= ? AND ranking_category = ? AND utr >= ?', 80, "MS", 5.00).where('birthyear BETWEEN ? AND ?',2005, 2006).order('utr desc')
+      @arr << u14 = Player.where('reliability >= ? AND ranking_category = ? AND utr >= ?', 80, "MS", 5.00).where('birthyear BETWEEN ? AND ?',2007, 2008).order('utr desc')
        @title = "UTR - " + params[:type] + " uke 1 (01. januar)"
     elsif params[:type] == "Junior jenter single"
-      @arr << u19 = Player.where('reliability >= ? AND ranking_category = ? AND utr >= ?', 80, "WS", 5.00).where('birthyear BETWEEN ? AND ?',2002, 2004).order(utr: :desc)
-      @arr << u16 = Player.where('reliability >= ? AND ranking_category = ? AND utr >= ?', 80, "WS", 5.00).where('birthyear BETWEEN ? AND ?',2005, 2006).order(utr: :desc)
-      @arr << u14 = Player.where('reliability >= ? AND ranking_category = ? AND utr >= ?', 80, "WS", 5.00).where('birthyear BETWEEN ? AND ?',2007, 2008).order(utr: :desc)
+      @arr << u19 = Player.where('reliability >= ? AND ranking_category = ? AND utr >= ?', 80, "WS", 5.00).where('birthyear BETWEEN ? AND ?',2002, 2004).order('utr desc')
+      @arr << u16 = Player.where('reliability >= ? AND ranking_category = ? AND utr >= ?', 80, "WS", 5.00).where('birthyear BETWEEN ? AND ?',2005, 2006).order('utr desc')
+      @arr << u14 = Player.where('reliability >= ? AND ranking_category = ? AND utr >= ?', 80, "WS", 5.00).where('birthyear BETWEEN ? AND ?',2007, 2008).order('utr desc')
        @title = "UTR - " + params[:type] + " uke 1 (01. januar)"
     else
       @arr << players = Player.all
