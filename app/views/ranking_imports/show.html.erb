@@ -65,8 +65,9 @@
 
         <td><%= link_to rank.player.name, "https://myutr.com/profiles/" + rank.player.utr_player_id.to_s  %></td>
         <td><%= rank.player.birthyear %></td>
-        <td><%= rank.utr %></td>
         <td><%= rank.reliability %></td>
+        <td><%= rank.utr %></td>
+        
       </tr>
       <% last_rank = rank %>
     <% end %>
