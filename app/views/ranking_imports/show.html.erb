@@ -1,7 +1,7 @@
 <p id="notice"><%= notice %></p>
 
 <h3>Last rankings</h3>
-<% RankingImport.order(rank_date: :desc).limit(3).each do |r| %>
+<% RankingImport.order(rank_date: :desc).limit(10).each do |r| %>
 	<% if r == @ranking_import %>
 	<b><%= link_to r.rank_date.strftime("%B %Y"), ranking_import_path(r) + "?type=Herrer single" %> |</b>
 	<% else %>

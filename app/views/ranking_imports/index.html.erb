@@ -12,7 +12,7 @@
   </thead>
 
   <tbody>
-    <% @ranking_imports.each do |ranking_import| %>
+    <% @ranking_imports.order(rank_date: :desc).each do |ranking_import| %>
       <tr>
         <td><%= ranking_import.rank_date %></td>
         <td><%= ranking_import.title %></td>
