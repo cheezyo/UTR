@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  utr_player_id: 1
+  name: MyString
+  birthdate: 2021-01-12
+  birthyear: 1
+  member_id: MyString
+  ranking_category: MyString
+  utr: 1.5
+  reliability: 1
+  profil_link: MyString
+
+two:
+  utr_player_id: 1
+  name: MyString
+  birthdate: 2021-01-12
+  birthyear: 1
+  member_id: MyString
+  ranking_category: MyString
+  utr: 1.5
+  reliability: 1
+  profil_link: MyString

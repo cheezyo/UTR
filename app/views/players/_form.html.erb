@@ -1,0 +1,62 @@
+<%= form_with(model: player, local: true) do |form| %>
+  <% if player.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(player.errors.count, "error") %> prohibited this player from being saved:</h2>
+
+      <ul>
+        <% player.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :utr_player_id %>
+    <%= form.number_field :utr_player_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :birthdate %>
+    <%= form.date_select :birthdate %>
+  </div>
+
+  <div class="field">
+    <%= form.label :birthyear %>
+    <%= form.number_field :birthyear %>
+  </div>
+
+  <div class="field">
+    <%= form.label :member_id %>
+    <%= form.text_field :member_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :ranking_category %>
+    <%= form.text_field :ranking_category %>
+  </div>
+
+  <div class="field">
+    <%= form.label :utr %>
+    <%= form.text_field :utr %>
+  </div>
+
+  <div class="field">
+    <%= form.label :reliability %>
+    <%= form.number_field :reliability %>
+  </div>
+
+  <div class="field">
+    <%= form.label :profil_link %>
+    <%= form.text_field :profil_link %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

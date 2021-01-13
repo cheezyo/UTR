@@ -1,0 +1,49 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Utr player:</strong>
+  <%= @player.utr_player_id %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @player.name %>
+</p>
+
+<p>
+  <strong>Birthdate:</strong>
+  <%= @player.birthdate %>
+</p>
+
+<p>
+  <strong>Birthyear:</strong>
+  <%= @player.birthyear %>
+</p>
+
+<p>
+  <strong>Member:</strong>
+  <%= @player.member_id %>
+</p>
+
+<p>
+  <strong>Ranking category:</strong>
+  <%= @player.ranking_category %>
+</p>
+
+<p>
+  <strong>Utr:</strong>
+  <%= @player.utr %>
+</p>
+
+<p>
+  <strong>Reliability:</strong>
+  <%= @player.reliability %>
+</p>
+
+<p>
+  <strong>Profil link:</strong>
+  <%= @player.profil_link %>
+</p>
+
+<%= link_to 'Edit', edit_player_path(@player) %> |
+<%= link_to 'Back', players_path %>

@@ -1,0 +1,56 @@
+<p id="notice"><%= notice %></p>
+<%= link_to "Senior Herrer Single", players_path + "?type=Herrer single" %>
+<%= link_to "Senior Damer Single", players_path + "?type=Damer single" %>
+<%= link_to "Junior Gutter Single", players_path + "?type=Junior gutter single" %>
+<%= link_to "Junior Jenter Single", players_path + "?type=Junior jenter single" %>
+<h1><%= @title %></h1>
+<% @arr.each do |players| %>
+<table>
+  <thead>
+    <tr>
+      <th>Rank</th>
+      <th>Navn</th>
+      
+      <th>Fødeselsår</th>
+ 
+      
+      <th>Utr</th>
+      <th>Reliability</th>
+      
+
+    </tr>
+  </thead>
+
+  <tbody>
+    <% num = 0 %>
+    <% last_player = Player.new %>
+    
+    <% players.each do |player| %>
+    
+      <tr>
+        <% if player.utr == last_player.utr %>
+          <td><%= num  %></td>
+          <% num = num + 1 %>
+        <% else %>
+          <td><%= num = num + 1  %></td>
+        <% end %>
+        <td><%= link_to player.name, "https://myutr.com/profiles/" + player.utr_player_id.to_s  %></td>
+    
+        <td><%= player.birthyear %></td>
+     
+        <td><%= player.utr %></td>
+        <td><%= player.reliability %></td>
+      </tr>
+      <% last_player = player %>
+    <% end %>
+  </tbody>
+</table>
+<% end %>
+<br>
+
+<%= form_tag import_players_path, multipart: true do %>
+  <%= file_field_tag :file %>
+  <%= submit_tag "Import" %>
+<% end %>
+
+
