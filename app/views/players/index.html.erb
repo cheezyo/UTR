@@ -10,12 +10,12 @@
     <tr>
       <th>Rank</th>
       <th>Navn</th>
-      
       <th>Fødeselsår</th>
- 
-      
-      <th>Utr</th>
       <th>Reliability</th>
+      <th>Utr</th>
+      <% RankingImport.order(rank_date: :desc).limit(3).each do |r| %>
+      <th><%= r.title %></th>
+      <% end %>
       
 
     </tr>
@@ -23,12 +23,13 @@
 
   <tbody>
     <% num = 0 %>
-    <% last_player = Player.new %>
+    <% last_rank = 0.0 %>
     
-    <% players.each do |player| %>
+    <% players.limit(20).each do |player| %>
     
       <tr>
-        <% if player.utr == last_player.utr %>
+        <% player_last_rank = player.rank %>
+        <% if player.rank == last_rank %>
           <td><%= num  %></td>
           <% num = num + 1 %>
         <% else %>
@@ -37,11 +38,19 @@
         <td><%= link_to player.name, "https://myutr.com/profiles/" + player.utr_player_id.to_s  %></td>
     
         <td><%= player.birthyear %></td>
-     
-        <td><%= player.utr %></td>
         <td><%= player.reliability %></td>
+        <td><b><%= player.rank %></b></td>
+  
+        <% RankingImport.order(rank_date: :desc).limit(3).each do |r| %>
+        <% rank = r.rankings.find_by_utr_player_id(player.utr_player_id) %>
+          <% if rank.nil? %>
+          <td>N/A</td>
+          <% else %>
+            <td><small><%= rank.utr %> </small></td>
+          <% end %>
+        <% end %>
       </tr>
-      <% last_player = player %>
+      <% last_rank = player.rank %>
     <% end %>
   </tbody>
 </table>

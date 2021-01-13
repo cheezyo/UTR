@@ -1,0 +1,9 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  rank_date: 2021-01-13
+  title: MyString
+
+two:
+  rank_date: 2021-01-13
+  title: MyString

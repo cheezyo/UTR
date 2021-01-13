@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_12_223125) do
+ActiveRecord::Schema.define(version: 2021_01_13_142558) do
 
   create_table "players", force: :cascade do |t|
     t.integer "utr_player_id"
@@ -24,6 +24,25 @@ ActiveRecord::Schema.define(version: 2021_01_12_223125) do
     t.string "profile_link"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "ranking_imports", force: :cascade do |t|
+    t.date "rank_date"
+    t.string "title"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "rankings", force: :cascade do |t|
+    t.integer "player_id"
+    t.integer "ranking_import_id"
+    t.float "utr"
+    t.integer "reliability"
+    t.integer "utr_player_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "ranking_category"
+    t.integer "birthyear"
   end
 
 end

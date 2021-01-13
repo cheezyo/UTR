@@ -1,0 +1,27 @@
+<%= form_with(model: ranking_import, local: true) do |form| %>
+  <% if ranking_import.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(ranking_import.errors.count, "error") %> prohibited this ranking_import from being saved:</h2>
+
+      <ul>
+        <% ranking_import.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :rank_date %>
+    <%= form.date_select :rank_date %>
+  </div>
+
+  <div class="field">
+    <%= form.label :title %>
+    <%= form.text_field :title %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

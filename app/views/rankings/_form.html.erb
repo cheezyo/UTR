@@ -1,0 +1,42 @@
+<%= form_with(model: ranking, local: true) do |form| %>
+  <% if ranking.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(ranking.errors.count, "error") %> prohibited this ranking from being saved:</h2>
+
+      <ul>
+        <% ranking.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :player_id %>
+    <%= form.number_field :player_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :ranking_import_id %>
+    <%= form.number_field :ranking_import_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :utr %>
+    <%= form.text_field :utr %>
+  </div>
+
+  <div class="field">
+    <%= form.label :reliability %>
+    <%= form.number_field :reliability %>
+  </div>
+
+  <div class="field">
+    <%= form.label :utr_player_id %>
+    <%= form.number_field :utr_player_id %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
