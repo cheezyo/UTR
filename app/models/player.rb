@@ -1,11 +1,12 @@
 class Player < ApplicationRecord
 
 
-	def self.import(file)
-		CSV.foreach(file.path, headers: true) do |row|
-			Player.create! row.to_hash
-		end	
+def self.import(file)
+	CSV.foreach(file.path, headers: true) do |row|
+		Player.create! row.to_hash
 	end
+	change_name	
+end
 
 def self.change_name
 
