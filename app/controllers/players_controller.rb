@@ -23,7 +23,7 @@ class PlayersController < ApplicationController
       @arr << u14 = Player.where('reliability >= ? AND ranking_category = ? AND utr >= ?', 80, "WS", 5.00).where('birthyear BETWEEN ? AND ?',2007, 2008).order('utr desc')
        @title = "UTR - " + params[:type] + " uke 1 (01. januar)"
     else
-      @arr << players = Player.all
+      @arr << players = Player.all.order('utr desc')
       @title = ""
     end
       
