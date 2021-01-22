@@ -6,8 +6,6 @@ class RankingImport < ApplicationRecord
 	def self.import(file, rank_id)
 		utr_ids = RankingImport.find(rank_id.to_i).rankings.pluck(:utr_player_id)
 		CSV.foreach(file.path, headers: true) do |row|
-		logger.debug "***************"
-		logger.debug utr_ids.include?(row["utr_player_id"].to_i)
 
 			unless utr_ids.include?(row["utr_player_id"].to_i)
 				rank = Ranking.new 
@@ -25,6 +23,7 @@ class RankingImport < ApplicationRecord
 					id = p.id
 				else
 					id = player.id
+					
 				end
 				rank.player_id = id
 				rank.save

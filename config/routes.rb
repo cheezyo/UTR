@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   resources :ranking_imports do 
   	collection do 
   		post :import
+      get :single
+      get :double
   	end
   end
   resources :players do 
