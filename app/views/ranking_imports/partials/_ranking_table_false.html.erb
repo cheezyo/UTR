@@ -33,7 +33,7 @@
               <% duplicates = 0 %>
             <% end %>
           <% end %>
-          <td><%= link_to rank.player.name, "https://myutr.com/profiles/" + rank.player.utr_player_id.to_s  %></td>
+          <td><%= link_to rank.player.name, "https://myutr.com/profiles/" + rank.player.utr_player_id.to_s, :target => "_blank"  %></td>
           <td><%= rank.player.birthyear %></td>
           <td><%= rank.reliability %></td>
                  <td><%= link_to rank.utr, rank.player %></td>
@@ -81,7 +81,7 @@
               <% duplicates = 0 %>
             <% end %>
           <% end %>
-          <td><%= link_to rank.player.name, "https://myutr.com/profiles/" + rank.player.utr_player_id.to_s  %></td>
+          <td><%= link_to rank.player.name, "https://myutr.com/profiles/" + rank.player.utr_player_id.to_s, :target => "_blank"  %></td>
           <td><%= rank.player.birthyear %></td>
           <td><%= rank.reliability %></td>
           <td><%= link_to rank.utr, rank.player %></td>
