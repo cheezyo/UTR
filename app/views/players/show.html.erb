@@ -4,9 +4,12 @@
 
 <h2>
   <%= link_to @player.name, "https://myutr.com/profiles/" + @player.utr_player_id.to_s %> 
-  <small>(Utr profile)</small>
+  <small>(Utr profil)</small>
 <h2>
 
 
+<h3>Single UTR utvikling</h3>
 <%= area_chart @player.rankings.where("ranking_category = ? or ranking_category = ?", "MS", "WS").order(created_at: :desc).pluck(:created_at, :utr), min: 0, max: 17  %>
+<h3>Double UTR utvikling</h3>
+<%= area_chart @player.rankings.where("ranking_category = ? or ranking_category = ?", "MD", "WD").order(created_at: :desc).pluck(:created_at, :utr), min: 0, max: 17, colors: ["#50c878", "#fff"]  %>
 
