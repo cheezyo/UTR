@@ -41,5 +41,7 @@
 <br>
 
 <% if current_user %>
-  <%= link_to "Last opp ny ranking", new_ranking_import_path %>
+<div class="button">
+  <%= link_to "Last opp ny ranking", new_ranking_import_path, :class => "btn" %>
+</div>
 <% end %>
