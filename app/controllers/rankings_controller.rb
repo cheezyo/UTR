@@ -1,6 +1,6 @@
 class RankingsController < ApplicationController
   before_action :set_ranking, only: [:show, :edit, :update, :destroy]
-
+  before_action :authenticate_user
   # GET /rankings
   # GET /rankings.json
   def index
@@ -70,5 +70,10 @@ class RankingsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def ranking_params
       params.require(:ranking).permit(:player_id, :ranking_import_id, :utr, :reliability, :utr_player_id)
+    end
+    def authenticate_user
+      if current_user == nil 
+        redirect_to ranking_imports_path
+      end
     end
 end

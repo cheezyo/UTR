@@ -1,6 +1,6 @@
 class RankingImportsController < ApplicationController
   before_action :set_ranking_import, only: [:show, :edit, :update, :destroy]
-
+  before_action :authenticate_user, only: [:edit, :update, :destroy, :new, :create, :import]
   # GET /ranking_imports
   # GET /ranking_imports.json
   def index
@@ -10,38 +10,63 @@ class RankingImportsController < ApplicationController
   # GET /ranking_imports/1
   # GET /ranking_imports/1.json
   def show
-      @arr = Array.new
-      rank = @ranking_import.rankings.where('reliability >= ? AND utr >= ?', 80, 5.00)
-      damer = rank.where('ranking_category = ?',  "WS").order('utr desc')
-      herrer = rank.where('ranking_category = ?',  "MS").order('utr desc')
+    if params[:ranking_category].present? 
+      @show_ranking = true
+      ranking_year = @ranking_import.rank_date.year 
+      @ranking = get_ranking(@ranking_import, params[:ranking_category])
+      @ranking = get_gender_and_age(params[:gender], params[:age], @ranking, ranking_year)
 
-    if params[:type] == "Herrer single"
-      @arr << herrer
-    
-    elsif params[:type] == "Damer single"
-      @arr << damer
+      if params[:gender] == "male"
+        if params[:age] == "senior"
+          @gender = "Herrer"
+        else
+          @gender = "Gutter"
+        end
 
-    elsif params[:type] == "Junior gutter single"
-      @arr << u19 = herrer.where('birthyear BETWEEN ? AND ?',2002, 2004).order('utr desc')
-      @arr << u16 = herrer.where('birthyear BETWEEN ? AND ?',2005, 2006).order('utr desc')
-      @arr << u14 = herrer.where('birthyear BETWEEN ? AND ?',2007, 2008).order('utr desc')
+      end
 
-    elsif params[:type] == "Junior jenter single"
-      @arr << u19 = damer.where('birthyear BETWEEN ? AND ?',2002, 2004).order('utr desc')
-      @arr << u16 = damer.where('birthyear BETWEEN ? AND ?',2005, 2006).order('utr desc')
-      @arr << u14 = damer.where('birthyear BETWEEN ? AND ?',2007, 2008).order('utr desc')
+    if params[:gender] == "female"
+      if params[:age] == "senior"
+          @gender = "Damer"
+        else
+          @gender = "Jenter"
+        end
+    end
+
+
+      if params[:age] == "senior"
+        @age = "Senior"
+      elsif params[:age] == "19"
+        @age = "U19"
+      elsif params[:age] == "16"
+        @age = "U16"
+      elsif params[:age] == "14"
+        @age = "U14"
+      end
+
+      if params[:ranking_category] == "single" 
+        @ranking_category = "Single"
+      else
+        @ranking_category = "Double"
+      end
+          
 
     else
-      @arr << players = rank.where('utr >= ?', 5.00).order('utr desc')
-      @title = ""
+      @show_ranking = false
+      @herrer =  @ranking_import.rankings.where('reliability >= ? AND utr >= ? AND ranking_category = ?', 80, 5.00, "MS" ).limit(10).order('utr desc')
+      @damer =  @ranking_import.rankings.where('reliability >= ? AND utr >= ? AND ranking_category = ?', 80, 5.00, "WS" ).limit(10).order('utr desc')
+      @senior = Array.new
+      @senior << @herrer
+      @senior << @damer
     end
-      
   end
 
   
+  
+  
 
   def import
-    logger.debug "*************" + params[:ranking_import_id]
+    
     
     RankingImport.import(params[:file], params[:ranking_import_id])
     redirect_to ranking_imports_url, notice: 'Ranking was successfully imported.' 
@@ -106,4 +131,37 @@ class RankingImportsController < ApplicationController
     def ranking_import_params
       params.require(:ranking_import).permit(:rank_date, :title)
     end
+
+  def get_gender_and_age(gender, age, ranking, ranking_year)
+    rank = ranking
+    if gender == "male"
+      rank = rank.where('ranking_category = ? or ranking_category = ?', "MS", "MD")
+    elsif gender == "female"
+      rank = rank.where('ranking_category = ? or ranking_category = ?', "WS", "WD")
+    end
+        
+    if age == "19"
+      rank = rank.where('birthyear BETWEEN ? AND ?',ranking_year - 19, ranking_year - 17)
+    elsif age == "16"
+      rank = rank.where('birthyear BETWEEN ? AND ?',ranking_year - 16, ranking_year - 15)
+    elsif age == "14"
+      rank = rank.where('birthyear BETWEEN ? AND ?',ranking_year - 14, ranking_year - 13 )   
+    end 
+      rank
+  end
+
+  def get_ranking(ranking_import, category)
+    if category== "single"
+      @ranking_import.rankings.where('reliability >= ? AND utr >= ? AND ranking_category = ? or reliability >= ? AND utr >= ? AND ranking_category = ?', 80, 5.00, "MS", 80, 5.00, "WS" ).order('utr desc')
+    elsif category == "double"
+      @ranking_import.rankings.where('reliability >= ? AND utr >= ? AND ranking_category = ? or reliability >= ? AND utr >= ? AND ranking_category = ?', 80, 5.00, "MD", 80, 5.00, "WD").order('utr desc')
+    end    
+  end
+
+  def authenticate_user
+      if current_user == nil 
+        redirect_to ranking_imports_path
+      end
+    end
+
 end

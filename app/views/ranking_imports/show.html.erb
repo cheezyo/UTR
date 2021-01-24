@@ -1,85 +1,104 @@
 <p id="notice"><%= notice %></p>
 
-<h3>Last rankings</h3>
-<% RankingImport.order(rank_date: :desc).limit(10).each do |r| %>
-	<% if r == @ranking_import %>
-	<b><%= link_to r.rank_date.strftime("%B %Y"), ranking_import_path(r) + "?type=Herrer single" %> |</b>
-	<% else %>
-	<%= link_to r.rank_date.strftime("%B %Y"), ranking_import_path(r) + "?type=Herrer single" %> |
-	<% end %>
-<% end %>
+
+<h2>Velg aldersklasse:</h2>
+<div class="tab">
+  <button class="tablinks1"  onclick="openAge(event, 'Herrer')">Herrer</button>
+  <button class="tablinks1" onclick="openAge(event, 'Damer')">Damer</button>
+</div>
+
+<div id="Herrer" class="tabcontent1" >
+
+  <div class="tab">
+    <button class="tablinks" onclick="openCity(event, 'SingleH')">Single</button>
+    <button class="tablinks" onclick="openCity(event, 'DoubleH')">Double</button>
+  </div>
+
+  <div id="SingleH" class="tabcontent">
+    <p><%= link_to "Herrer senior", ranking_import_path(@ranking_import) + "?ranking_category=single&gender=male&age=senior" %></p>
+    <p><%= link_to "Gutter u19", ranking_import_path(@ranking_import) + "?ranking_category=single&gender=male&age=19" %></p>
+    <p><%= link_to "Gutter u16", ranking_import_path(@ranking_import) + "?ranking_category=single&gender=male&age=16" %></p>
+    <p><%= link_to "Gutter u14", ranking_import_path(@ranking_import) + "?ranking_category=single&gender=male&age=14" %></p>
+  </div>
+  <div id="DoubleH" class="tabcontent" style="margin-left: 80px">
+    <p><%= link_to "Herrer double senior", ranking_import_path(@ranking_import) + "?ranking_category=double&gender=male&age=senior" %></p>
+    <p><%= link_to "Gutter double u19", ranking_import_path(@ranking_import) + "?ranking_category=double&gender=male&age=19" %></p>
+    <p><%= link_to "Gutter double u16", ranking_import_path(@ranking_import) + "?ranking_category=double&gender=male&age=16" %></p>
+    <p><%= link_to "Gutter double u14", ranking_import_path(@ranking_import) + "?ranking_category=double&gender=male&age=14" %></p>
+  </div>
+
+</div>
+
+<div id="Damer" class="tabcontent1" >
+   <div class="tab">
+    <button class="tablinks" onclick="openCity(event, 'SingleD')">Single</button>
+    <button class="tablinks" onclick="openCity(event, 'DoubleD')">Double</button>
+  </div>
+  
+  <div id="SingleD" class="tabcontent">
+    <p><%= link_to "Damer senior", ranking_import_path(@ranking_import) + "?ranking_category=single&gender=female&age=senior" %></p>
+    <p><%= link_to "Jenter u19", ranking_import_path(@ranking_import) + "?ranking_category=single&gender=female&age=19" %></p>
+    <p><%= link_to "Jenter u16", ranking_import_path(@ranking_import) + "?ranking_category=single&gender=female&age=16" %></p>
+    <p><%= link_to "Jenter u14", ranking_import_path(@ranking_import) + "?ranking_category=single&gender=female&age=14" %></p>
+  </div>
+  <div id="DoubleD" class="tabcontent" style="margin-left: 80px">
+    <p><%= link_to "Damer double senior", ranking_import_path(@ranking_import) + "?ranking_category=double&gender=female&age=senior" %></p>
+    <p><%= link_to "Jenter double u19", ranking_import_path(@ranking_import) + "?ranking_category=double&gender=female&age=19" %></p>
+    <p><%= link_to "Jenter double u16", ranking_import_path(@ranking_import) + "?ranking_category=double&gender=female&age=16" %></p>
+    <p><%= link_to "Jenter double u14", ranking_import_path(@ranking_import) + "?ranking_category=double&gender=female&age=14" %></p>
+     
+  </div>
+</div>
+
 <hr/>
 
+<% if @show_ranking == true %>
 
-<p>
-  <strong>Rank date:</strong>
-  <%= @ranking_import.rank_date %>
-</p>
+<h2>
+  <%= @ranking_import.rank_date.strftime("%B %Y") %> - 
+  <%= @age + " " + @gender + "  " + @ranking_category %><br/>
 
-<p>
-  <strong>Title:</strong>
-  <%= @ranking_import.title %>
-</p>
-<%= link_to "Senior Herrer Single", ranking_import_path(@ranking_import) + "?type=Herrer single" %> | 
-<%= link_to "Senior Damer Single", ranking_import_path(@ranking_import) + "?type=Damer single" %> | 
-<%= link_to "Junior Gutter Single", ranking_import_path(@ranking_import) + "?type=Junior gutter single" %> | 
-<%= link_to "Junior Jenter Single", ranking_import_path(@ranking_import) + "?type=Junior jenter single" %> | 
+</h2>
 <hr/>
-<% @arr.each do |rankings| %>
-<table>
-  <thead>
-    <tr>
-      <th>Rank</th>
-      <th>Navn</th>
-      
-      <th>Fødeselsår</th>
- 
-      
-      
-      <th>Reliability</th>
-      <th>Utr</th>
+<%= render 'ranking_imports/partials/ranking_table', ranking: @ranking %>
 
-    </tr>
-  </thead>
-
-  <tbody>
-    <% num = 0 %>
-    <% duplicates = 0 %>
-    <% last_rank = Ranking.new %>
-    
-    <% rankings.each do |rank| %>
-    
-      <tr>
-        
-        <% if rank.utr == last_rank.utr %>
-          <td><%= num  %></td>
-          <% duplicates = duplicates + 1 %>
-        <% else %>
-          <% if duplicates == 0 %>
-          	<td><%= num = num + 1  %></td>
-          <% else %>
-          	<td><%= num = num + duplicates + 1  %></td>
-          	<% duplicates = 0 %>
-          <% end %>
-        <% end %>
-
-        <td><%= link_to rank.player.name, "https://myutr.com/profiles/" + rank.player.utr_player_id.to_s  %></td>
-        <td><%= rank.player.birthyear %></td>
-        <td><%= rank.reliability %></td>
-        <td><%= rank.utr %></td>
-        
-      </tr>
-      <% last_rank = rank %>
-    <% end %>
-  </tbody>
-</table>
-<br/> <br/>
+<% else %>
+<h2><%= @ranking_import.rank_date.strftime("%B %Y") %></h2>
+<%= render 'ranking_imports/partials/ranking_table_false', ranking: @senior %>
 <% end %>
-<br>
+<div style="float: left; width: 100%; margin-top: 50px;">
 <%= form_tag import_ranking_imports_path, multipart: true do %>
   <%= file_field_tag :file %>
   <%= hidden_field_tag :ranking_import_id, @ranking_import.id %>
   <%= submit_tag "Import" %>
   <% end %>
-<%= link_to 'Edit', edit_ranking_import_path(@ranking_import) %> |
-<%= link_to 'Back', ranking_imports_path %>
+</div>
+<script>
+function openCity(evt, cityName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+
+function openAge(evt, cityName) {
+  var i, tabcontent1, tablinks1;
+  tabcontent1 = document.getElementsByClassName("tabcontent1");
+  for (i = 0; i < tabcontent1.length; i++) {
+    tabcontent1[i].style.display = "none";
+  }
+  tablinks1 = document.getElementsByClassName("tablinks1");
+  for (i = 0; i < tablinks1.length; i++) {
+    tablinks1[i].className = tablinks1[i].className.replace(" active", "");
+  }
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+</script>

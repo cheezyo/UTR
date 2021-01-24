@@ -1,6 +1,6 @@
 class PlayersController < ApplicationController
   before_action :set_player, only: [:show, :edit, :update, :destroy]
-
+  before_action :authenticate_user
   # GET /players
   # GET /players.json
   def index
@@ -100,5 +100,10 @@ class PlayersController < ApplicationController
     # Only allow a list of trusted parameters through.
     def player_params
       params.require(:player).permit(:utr_player_id, :name, :birthdate, :birthyear, :member_id, :ranking_category, :utr, :reliability, :profil_link)
+    end
+    def authenticate_user
+      if current_user == nil 
+        redirect_to ranking_imports_path
+      end
     end
 end
