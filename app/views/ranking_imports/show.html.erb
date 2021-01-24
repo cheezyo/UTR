@@ -1,6 +1,13 @@
 <p id="notice"><%= notice %></p>
-
-
+<% if current_user %>
+  <div style="float: left; width: 100%; margin-top: 0px; margin-bottom: 20px;">
+  <%= form_tag import_ranking_imports_path, multipart: true do %>
+    <%= file_field_tag :file %>
+    <%= hidden_field_tag :ranking_import_id, @ranking_import.id %>
+    <%= submit_tag "Import" %>
+    <% end %>
+  </div>
+<% end %>
 <h2>Velg aldersklasse:</h2>
 <div class="tab">
   <button class="tablinks1"  onclick="openAge(event, 'Herrer')">Herrer</button>
@@ -66,13 +73,7 @@
 <h2><%= @ranking_import.rank_date.strftime("%B %Y") %></h2>
 <%= render 'ranking_imports/partials/ranking_table_false', ranking: @senior %>
 <% end %>
-<div style="float: left; width: 100%; margin-top: 50px;">
-<%= form_tag import_ranking_imports_path, multipart: true do %>
-  <%= file_field_tag :file %>
-  <%= hidden_field_tag :ranking_import_id, @ranking_import.id %>
-  <%= submit_tag "Import" %>
-  <% end %>
-</div>
+
 <script>
 function openCity(evt, cityName) {
   var i, tabcontent, tablinks;
