@@ -1,0 +1,94 @@
+<div style="float: left; margin-right: 20px;">
+<h3>Top 10 herrer</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Rank</th>
+        <th>Navn</th>
+        <th>Fødeselsår</th>
+        <th>Reliability</th>
+        <th>Utr</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% num = 0 %>
+      <% duplicates = 0 %>
+      <% last_rank = Ranking.new %>
+      <% n = 0 %>
+      <% @senior[0].each do |rank| %>
+       <% if n.odd? %>
+          <tr class="odd">
+          <% else %>
+          <tr>
+          <% end %>
+          <% n = n + 1 %>
+          <% if rank.utr == last_rank.utr %>
+            <td><%= num  %></td>
+            <% duplicates = duplicates + 1 %>
+          <% else %>
+            <% if duplicates == 0 %>
+              <td><%= num = num + 1  %></td>
+            <% else %>
+              <td><%= num = num + duplicates + 1  %></td>
+              <% duplicates = 0 %>
+            <% end %>
+          <% end %>
+          <td><%= link_to rank.player.name, "https://myutr.com/profiles/" + rank.player.utr_player_id.to_s  %></td>
+          <td><%= rank.player.birthyear %></td>
+          <td><%= rank.reliability %></td>
+          <td><%= rank.utr %></td>
+        </tr>
+        <% last_rank = rank %>
+      <% end %>
+    </tbody>
+  </table>
+  <p><%= link_to "Vis alle herrer", ranking_import_path(@ranking_import) + "?ranking_category=single&gender=male&age=senior" %></p>
+</div>
+
+<div style="float: left; margin-left: 20px; border-left: 1px solid #000; padding-left: 40px;">
+
+<h3>Top 10 damer</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Rank</th>
+        <th>Navn</th>
+        <th>Fødeselsår</th>
+        <th>Reliability</th>
+        <th>Utr</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% num = 0 %>
+      <% duplicates = 0 %>
+      <% last_rank = Ranking.new %>
+      <% n = 0 %>
+      <% @senior[1].each do |rank| %>
+        <% if n.odd? %>
+          <tr class="odd">
+          <% else %>
+          <tr>
+          <% end %>
+          <% n = n + 1 %>
+          <% if rank.utr == last_rank.utr %>
+            <td><%= num  %></td>
+            <% duplicates = duplicates + 1 %>
+          <% else %>
+            <% if duplicates == 0 %>
+              <td><%= num = num + 1  %></td>
+            <% else %>
+              <td><%= num = num + duplicates + 1  %></td>
+              <% duplicates = 0 %>
+            <% end %>
+          <% end %>
+          <td><%= link_to rank.player.name, "https://myutr.com/profiles/" + rank.player.utr_player_id.to_s  %></td>
+          <td><%= rank.player.birthyear %></td>
+          <td><%= rank.reliability %></td>
+          <td><%= rank.utr %></td>
+        </tr>
+        <% last_rank = rank %>
+      <% end %>
+    </tbody>
+  </table>
+  <p><%= link_to "Vis alle damer", ranking_import_path(@ranking_import) + "?ranking_category=single&gender=female&age=senior" %></p>
+</div>

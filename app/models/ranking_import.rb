@@ -4,10 +4,11 @@ class RankingImport < ApplicationRecord
 
 
 	def self.import(file, rank_id)
-		utr_ids = RankingImport.find(rank_id.to_i).rankings.pluck(:utr_player_id)
+		ranking_import = RankingImport.find(rank_id.to_i)
+		utr_ids = ranking_import.rankings.pluck(:utr_player_id, :ranking_category)
 		CSV.foreach(file.path, headers: true) do |row|
 
-			unless utr_ids.include?(row["utr_player_id"].to_i)
+			unless utr_ids.include?([row["utr_player_id"].to_i, row["ranking_category"]]) 
 				rank = Ranking.new 
 				rank.ranking_import_id = rank_id.to_i
 				rank.utr = row["utr"]
@@ -16,6 +17,7 @@ class RankingImport < ApplicationRecord
 				rank.ranking_category = row["ranking_category"]
 				rank.birthyear = row["birthyear"]
 				id = ""
+
 				player = Player.find_by_utr_player_id(row["utr_player_id"])
 				if player.nil?
 					p = Player.create! row.to_hash

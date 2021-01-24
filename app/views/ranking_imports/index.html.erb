@@ -1,29 +1,45 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Ranking Imports</h1>
+<h1>Ranking arkiv</h1>
 
-<table>
+
+  <div class="tbl-header">
+    <table cellpadding="0" cellspacing="0" border="0">
   <thead>
     <tr>
-      <th>Rank date</th>
-      <th>Title</th>
-      <th colspan="3"></th>
+      <th>Måned</th>
+      <th>Lastet opp</th>
+      <% if current_user %>
+        <th colspan="2"></th>
+      <% end %>
     </tr>
   </thead>
-
+  </table>
+</div>
   <tbody>
+    <div class="tbl-content">
+    <table cellpadding="0" cellspacing="0" border="0">
+      <% n = 0  %>
     <% @ranking_imports.order(rank_date: :desc).each do |ranking_import| %>
+      <% if n.odd? %>
+      <tr class="odd">
+      <% else %>
       <tr>
-        <td><%= ranking_import.rank_date %></td>
-        <td><%= ranking_import.title %></td>
-        <td><%= link_to 'Show', ranking_import %></td>
-        <td><%= link_to 'Edit', edit_ranking_import_path(ranking_import) %></td>
-        <td><%= link_to 'Destroy', ranking_import, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      <% end %>
+      <% n = n + 1 %>
+        <td><%= link_to ranking_import.title, ranking_import %></td>
+        <td><%= ranking_import.rank_date.strftime("%d-%m-%Y") %></td>
+        <% if current_user %>
+          <td><%= link_to 'Edit', edit_ranking_import_path(ranking_import) %></td>
+          <td><%= link_to 'Destroy', ranking_import, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
 </table>
-
+</div>
 <br>
 
-<%= link_to 'New Ranking Import', new_ranking_import_path %>
+<% if current_user %>
+  <%= link_to "Last opp ny ranking", new_ranking_import_path %>
+<% end %>

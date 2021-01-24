@@ -11,21 +11,22 @@
 
   <body>
   <div class="navbar">
-    <a href="#home">Arkiv</a>
-    <a href="#news">News</a>
-    <div class="dropdown">
-      <button class="dropbtn">Damer single 
-        <i class="fa fa-caret-down"></i>
-      </button>
-      <div class="dropdown-content">
-        <a href="#">Link 1</a>
-        <a href="#">Link 2</a>
-        <a href="#">Link 3</a>
-      </div>
-    </div> 
+    <a href="https://tennis.no" target="_blank">Tennis.no</a>
+    <%= link_to "Rankinger", ranking_imports_path %>
+
+<span style="float:right;"><small>
+    <% if current_user %>
+      
+      <%= link_to "Log Out", logout_path %>
+      
+    <% else %>
+      <%= link_to "Log In", login_path %>
+    <% end %>
+</small></span>
 </div>
 
+  <div class="main">
     <%= yield %>
-
+  </div>
   </body>
 </html>
