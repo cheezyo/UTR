@@ -8,5 +8,5 @@
 <h2>
 
 
-<%= area_chart @player.rankings.order(created_at: :desc).pluck(:created_at, :utr), min: 0, max: 17  %>
+<%= area_chart @player.rankings.where("ranking_category = ? or ranking_category = ?", "MS", "WS").order(created_at: :desc).pluck(:created_at, :utr), min: 0, max: 17  %>
 
