@@ -1,49 +1,12 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Utr player:</strong>
-  <%= @player.utr_player_id %>
-</p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @player.name %>
-</p>
 
-<p>
-  <strong>Birthdate:</strong>
-  <%= @player.birthdate %>
-</p>
+<h2>
+  <%= link_to @player.name, "https://myutr.com/profiles/" + @player.utr_player_id.to_s %> 
+  <small>(Utr profile)</small>
+<h2>
 
-<p>
-  <strong>Birthyear:</strong>
-  <%= @player.birthyear %>
-</p>
 
-<p>
-  <strong>Member:</strong>
-  <%= @player.member_id %>
-</p>
+<%= area_chart @player.rankings.order(created_at: :desc).pluck(:created_at, :utr), min: 0, max: 17  %>
 
-<p>
-  <strong>Ranking category:</strong>
-  <%= @player.ranking_category %>
-</p>
-
-<p>
-  <strong>Utr:</strong>
-  <%= @player.utr %>
-</p>
-
-<p>
-  <strong>Reliability:</strong>
-  <%= @player.reliability %>
-</p>
-
-<p>
-  <strong>Profil link:</strong>
-  <%= @player.profil_link %>
-</p>
-
-<%= link_to 'Edit', edit_player_path(@player) %> |
-<%= link_to 'Back', players_path %>

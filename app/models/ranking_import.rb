@@ -17,6 +17,7 @@ class RankingImport < ApplicationRecord
 				rank.ranking_category = row["ranking_category"]
 				rank.birthyear = row["birthyear"]
 				id = ""
+				rank.created_at = ranking_import.rank_date
 
 				player = Player.find_by_utr_player_id(row["utr_player_id"])
 				if player.nil?
