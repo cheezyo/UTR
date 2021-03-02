@@ -71,7 +71,7 @@
 
 <% else %>
 <h2><%= @ranking_import.rank_date.strftime("%B %Y") %></h2>
-<%= render 'ranking_imports/partials/ranking_table_false', ranking: @senior.limit(50) %>
+<%= render 'ranking_imports/partials/ranking_table_false', ranking: @senior %>
 <% end %>
 
 <script>
