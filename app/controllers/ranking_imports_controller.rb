@@ -16,6 +16,12 @@ class RankingImportsController < ApplicationController
       @ranking = get_ranking(@ranking_import, params[:ranking_category])
       @ranking = get_gender_and_age(params[:gender], params[:age], @ranking, ranking_year)
 
+      if params[:age] == "senior"
+       @ranking =  @ranking.limit(50)
+      else
+        @ranking = @ranking.limit(20)
+      end
+
       if params[:gender] == "male"
         if params[:age] == "senior"
           @gender = "Herrer"
